@@ -1,4 +1,6 @@
 from eve import Eve
+from flask import send_from_directory
+import os
 import pymongo
 
 from components import users
@@ -16,6 +18,22 @@ EVE_SETTINGS = {
     'ITEM_METHODS': ['GET', 'PUT', 'DELETE'],
     'PAGINATION_LIMIT': 10000
 }
+
+
+PWD = os.environ.get('PWD')
+STATIC_FOLDER = os.path.join(PWD, 'public')
+
+app = Eve(settings=EVE_SETTINGS, static_folder=STATIC_FOLDER)
+
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
+
+
+@app.route('/<path:path>')
+def static_proxy(path):
+    return send_from_directory(STATIC_FOLDER, path)
 
 
 def initialize_components(eve_app, components):
@@ -45,7 +63,6 @@ def _ensure_indexes(resource_name, indexes):
         db[resource_name].ensure_index(index, **options)
 
 
-app = Eve(settings=EVE_SETTINGS)
 initialize_components(app, [users])
 
 
