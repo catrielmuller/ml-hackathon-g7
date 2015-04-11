@@ -1,6 +1,7 @@
 import pymongo
 from settings import EVE_SETTINGS
 
+
 def initialize_components(eve_app, components):
     """Initialize components' resources with the Eve app.  Accepts a single item or a list of them.  Each item must be
     a package with a variable called RESOURCES, which is a list of dictionaries, each containing the configuration

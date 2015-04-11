@@ -1,4 +1,3 @@
-
 EVE_SETTINGS = {
     'DOMAIN': {},
     'URL_PREFIX': 'api',

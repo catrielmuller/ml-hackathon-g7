@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import render_template, redirect, request, session
 
 import sys
 sys.path.append('python-sdk/lib')
@@ -16,8 +16,8 @@ meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 @app.route("/login")
 def login():
-	redirectUrl = meli.auth_url(redirect_URI=REDIRECT_URI)
-	return redirect(redirectUrl)
+    redirectUrl = meli.auth_url(redirect_URI=REDIRECT_URI)
+    return redirect(redirectUrl)
 
 
 @app.route("/authorize")
@@ -34,3 +34,4 @@ def index():
 		return redirect("/login")
 	meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'], refresh_token=session['refresh_token'])
 	return meli_auth.get("/users/666").content
+
