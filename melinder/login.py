@@ -8,7 +8,7 @@ from melinder import app
 
 CLIENT_ID = 1740763944371557
 CLIENT_SECRET = "vHgHCql4k59sqIkWfpNqPHedh6lucGEK"
-REDIRECT_URI = "http://localhost:5000/authorize"
+REDIRECT_URI = "http://3b38f96a.ngrok.com/authorize"
 
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
@@ -22,16 +22,17 @@ def login():
 
 @app.route("/authorize")
 def authorize():
-	meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
-	session['access_token'] = meli.access_token
-	session['refresh_token'] = meli.refresh_token
-	return redirect("/")
+	if request.method == 'GET':
+		meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
+
+		session['access_token'] = meli.access_token
+		session['refresh_token'] = meli.refresh_token
+		return redirect("/")
 
 
 @app.route("/")
 def index():
 	if not 'access_token' in session or not 'refresh_token' in session:
 		return redirect("/login")
-	meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'], refresh_token=session['refresh_token'])
-	return meli_auth.get("/users/666").content
+	return meli.get("/users/me", {'access_token': session['access_token']}).content
 
