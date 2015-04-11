@@ -1,6 +1,6 @@
 'use strict';
 
-var venderLibs = ['ui.router']
+var venderLibs = ['ui.router'];
 
 angular.module('melinder', venderLibs)
     .config(function($stateProvider, $urlRouterProvider,$locationProvider ) {
@@ -12,7 +12,7 @@ angular.module('melinder', venderLibs)
 
         $stateProvider
             .state('home', {
-                url: '/home',
+                url: '/',
                 templateUrl: "/modules/home/view/home.html"
             })
 
