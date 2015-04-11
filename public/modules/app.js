@@ -2,19 +2,24 @@
 
 var venderLibs = ['ui.router'];
 
-angular.module('melinder', venderLibs)
-    .config(function($stateProvider, $urlRouterProvider,$locationProvider ) {
+var app = angular.module('melinder', venderLibs);
 
-        $urlRouterProvider
-            .otherwise('/');
+app.config(function($stateProvider, $urlRouterProvider) {
 
-        $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/home');
 
         $stateProvider
+
+            // HOME STATES AND NESTED VIEWS ========================================
             .state('home', {
-                url: '/',
-                templateUrl: "/modules/home/view/home.html"
+                url: '/home',
+                templateUrl: 'modules/home/view/home.html'
+                //template: '<div>partial-home.html</div>,<div>partial-home.html</div>,<div>partial-home.html</div>,<div>partial-home.html</div>'
             })
 
+            // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+            .state('about', {
+                // we'll get to this in a bit
+            });
 
-    })
+    });
