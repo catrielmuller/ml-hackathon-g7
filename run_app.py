@@ -7,7 +7,14 @@ EVE_SETTINGS = {
     'DOMAIN': {},
     'URL_PREFIX': 'api',
     'MONGO_DBNAME': 'melinder',
-    'XML': False
+    'XML': False,
+    'HATEOAS': False,
+    'IF_MATCH': False,
+    'BANDWIDTH_SAVER': False,
+    'MONGO_QUERY_BLACKLIST': ['$WHERE'],
+    'RESOURCE_METHODS': ['GET', 'POST', 'DELETE'],
+    'ITEM_METHODS': ['GET', 'PUT', 'DELETE'],
+    'PAGINATION_LIMIT': 10000
 }
 
 
@@ -28,18 +35,7 @@ def _initialize_resource(eve_app, resource):
     if name not in eve_app.config['DOMAIN']:
         initialize_components(eve_app, resource.get('dependencies', []))
         eve_app.register_resource(name, resource['domain_settings'])
-        _register_event_callbacks(eve_app, name, resource.get('event_callbacks', {}))
         _ensure_indexes(name, resource.get('indexes', []))
-
-
-def _register_event_callbacks(eve_app, resource_name, event_callbacks):
-    """Register callbacks for Eve events to do with the resource"""
-    for event, callback in event_callbacks.iteritems():
-        full_event_name = "on_{}_{}".format(event, resource_name)
-        # Eve events are supposed to be used like "eve_app.on_even_name += callback".  However, our event name is a
-        # string, so we have to use this ugly workaround.  See https://github.com/nicolaiarocci/events/ for info
-        event_slot = getattr(eve_app, full_event_name)
-        event_slot.__iadd__(callback)
 
 
 def _ensure_indexes(resource_name, indexes):
