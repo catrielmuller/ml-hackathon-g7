@@ -1,7 +1,6 @@
 'use strict';
 
-var module = angular.module('home' , []);
-
-module.controller('homeController', ['$scope'], function($scope){
-    $scope.test = 'MiVariable';
-});
+angular.module('melinder')
+    .controller('homeController', function($scope){
+        $scope.test = 'MiVariable';
+    });

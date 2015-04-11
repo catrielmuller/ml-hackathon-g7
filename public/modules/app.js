@@ -1,10 +1,20 @@
 'use strict';
 
+var venderLibs = ['ui.router']
 
-var lib = [],
-    venderLibs = ['ui.router'],
-    modules = ['home'];
+angular.module('melinder', venderLibs)
+    .config(function($stateProvider, $urlRouterProvider,$locationProvider ) {
 
-lib.concat(venderLibs,modules)
+        $urlRouterProvider
+            .otherwise('/');
 
-var app = angular.module('melinder', lib);
+        $locationProvider.html5Mode(true);
+
+        $stateProvider
+            .state('home', {
+                url: '/home',
+                templateUrl: "/modules/home/view/home.html"
+            })
+
+
+    })
