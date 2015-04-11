@@ -5,6 +5,7 @@ import pymongo
 
 from components import users
 
+
 EVE_SETTINGS = {
     'DOMAIN': {},
     'URL_PREFIX': 'api',
