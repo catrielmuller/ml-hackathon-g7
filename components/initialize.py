@@ -34,7 +34,7 @@ def _register_event_callbacks(eve_app, resource_name, event_callbacks):
 
 
 def _ensure_indexes(resource_name, indexes):
-    client = pymongo.MongoClient()
+    client = pymongo.MongoClient(EVE_SETTINGS['MONGO_URI'])
     db = client[EVE_SETTINGS['MONGO_DBNAME']]
     for index, options in indexes:
         db[resource_name].ensure_index(index, **options)

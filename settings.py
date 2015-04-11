@@ -18,9 +18,12 @@ EVE_SETTINGS = {
 if os.environ.get('PORT'):
     print 'prod'
     sys.stdout.flush()
-    EVE_SETTINGS['MONGO_URI'] = os.environ.get('MONGOLAB_URI')
+    EVE_SETTINGS['MONGO_DBNAME'] = 'heroku_app35780615'
+    EVE_SETTINGS['MONGO_URI'] = 'mongodb://ml-hackathon-g7:.hackathon.@ds061671.mongolab.com:61671/heroku_app35780615'
+    #EVE_SETTINGS['MONGO_URI'] = os.environ.get('MONGOLAB_URI')
 else:
     print 'local'
     sys.stdout.flush()
     EVE_SETTINGS['MONGO_DBNAME'] = 'melinder'
+    EVE_SETTINGS['MONGO_URI'] = 'mongodb://localhost:27017/melinder'
 
