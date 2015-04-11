@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import render_template, redirect, request, session
 
 import sys
 sys.path.append('python-sdk/lib')
@@ -20,28 +20,28 @@ def main():
 
 @app.route("/login")
 def login():
-	redirectUrl = meli.auth_url(redirect_URI=REDIRECT_URI)
-	return redirect(redirectUrl)
+    redirectUrl = meli.auth_url(redirect_URI=REDIRECT_URI)
+    return redirect(redirectUrl)
 
 
 @app.route("/authorize")
 def authorize():
-	meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
-	session['access_token'] = meli.access_token
-	return redirect("/")
+    meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
+    session['access_token'] = meli.access_token
+    return redirect("/")
 
 
 @app.route("/")
 def index():
-	if not 'access_token' in session:
-		return redirect("/main")
-	meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'])
-	return meli_auth.get("/users/666").content
+    if not 'access_token' in session:
+        return redirect("/main")
+    meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'])
+    return meli_auth.get("/users/666").content
 
 
 if __name__ == "__main__":
-	app.debug = True
-	app.secret_key = "\xe6\xd7\xcd2\x16\xb8\xa0,\x10\xb8V\xf8\xed\xa01\x9a\xbe\xfb\xa5\x88\xff\x0e\xd5"
-	app.run()
+    app.debug = True
+    app.secret_key = "\xe6\xd7\xcd2\x16\xb8\xa0,\x10\xb8V\xf8\xed\xa01\x9a\xbe\xfb\xa5\x88\xff\x0e\xd5"
+    app.run()
 
 
