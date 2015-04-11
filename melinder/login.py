@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, session
 
 import sys
-sys.path.append('python-sdk/lib')
+sys.path.append('meli/lib')
 from meli import Meli
 
 from melinder import app
@@ -34,5 +34,5 @@ def authorize():
 def index():
 	if not 'access_token' in session or not 'refresh_token' in session:
 		return redirect("/login")
-	return meli.get("/users/me", {'access_token': session['access_token']}).content
+	return meli.get("/users/me", {'access_token': session['access_token']})	.content
 
