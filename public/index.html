@@ -1,8 +1,8 @@
-<!doctype html ng-app="melinder">
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="" ng-app="melinder"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="" ng-app="melinder"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="" ng-app="melinder"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="" ng-app="melinder"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -35,19 +35,18 @@
         </nav>
 
         <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div >
-          <div class="container text-center">
-            <h1>Melinder</h1>
-              <img src="assets/img/logo.png">
-            <p>El tinder de mercado libre.</p>
-          </div>
-        </div>
-
-
+        <div ng-view></div>
         <!-- Vendor libs-->
         <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
 
+
+        <!-- Modules-->
         <script src="modules/app.js"></script>
+
+        <script src="modules/home/route/home.route.js"></script>
+        <script src="modules/home/controller/home.controller.js"></script>
+
 
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
