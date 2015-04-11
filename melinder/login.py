@@ -6,16 +6,12 @@ from meli import Meli
 
 from melinder import app
 
-CLIENT_ID = 5869207199853659
-CLIENT_SECRET = "GnSUwAXDgI6PnkVOFtvujLdMYgOkVeCo"
+CLIENT_ID = 1740763944371557
+CLIENT_SECRET = "vHgHCql4k59sqIkWfpNqPHedh6lucGEK"
 REDIRECT_URI = "http://localhost:5000/authorize"
 
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
-
-@app.route("/main")
-def main():
-    return render_template('main.html')
 
 
 @app.route("/login")
@@ -26,22 +22,16 @@ def login():
 
 @app.route("/authorize")
 def authorize():
-    meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
-    session['access_token'] = meli.access_token
-    return redirect("/")
+	meli.authorize(code=request.args.get('code', ''), redirect_URI=REDIRECT_URI)
+	session['access_token'] = meli.access_token
+	session['refresh_token'] = meli.refresh_token
+	return redirect("/")
 
 
 @app.route("/")
 def index():
-    if not 'access_token' in session:
-        return redirect("/main")
-    meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'])
-    return meli_auth.get("/users/666").content
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.secret_key = "\xe6\xd7\xcd2\x16\xb8\xa0,\x10\xb8V\xf8\xed\xa01\x9a\xbe\xfb\xa5\x88\xff\x0e\xd5"
-    app.run()
-
+	if not 'access_token' in session or not 'refresh_token' in session:
+		return redirect("/login")
+	meli_auth = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET, access_token=session['access_token'], refresh_token=session['refresh_token'])
+	return meli_auth.get("/users/666").content
 
