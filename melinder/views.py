@@ -1,5 +1,6 @@
 from flask import send_from_directory, current_app, request, session, redirect
 import json
+import os
 
 from amazonproduct import API
 from eve.utils import parse_request
@@ -18,7 +19,10 @@ MELI_TO_AMAZON = {
     'Salud y Belleza': 'HealthPersonalCare'
 }
 
-amazon_api = API(locale='es')
+
+amazon_api = API(locale='es', access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+                 secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'),
+                 associate_tag=os.environ.get('AWS_ASSOCIATE_TAG'))
 
 
 @app.route('/')
