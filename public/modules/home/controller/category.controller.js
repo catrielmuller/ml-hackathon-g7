@@ -12,7 +12,7 @@ angular.module('melinder')
 
 
         $scope.guardarCategories=function(categories){
-            productsService.saveCategories(Session.id,categories,function(data){
+            productsService.saveCategories(Session.id || window.user.id, categories,function(data){
                 $state.go('user.menu');
             });
 
