@@ -1,4 +1,5 @@
 'use strict';
+var API_DOMAIN = 'http://ml-hackathon-g7.herokuapp.com';
 
 var venderLibs = ['ui.router', 'ionic'];
 
@@ -9,3 +10,4 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 
     });
+
