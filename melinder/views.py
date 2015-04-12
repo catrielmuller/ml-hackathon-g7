@@ -41,6 +41,17 @@ def change_price():
 @app.route('/test')
 def test():
     current_app.data.insert('like', {'like': 'true'})
-
-    #meli.get("/sites/MLA/search/?category=MLA5725&q=ipod", {'access_token': session['access_token']}).content
     return ""
+
+
+@login_required
+@app.route('/load_categories')
+def load_categories(likes):
+    categories = json.loads(meli.get("/sites/MLA/categories").content)
+    return categories
+    for category in categories:
+        current_app.data.category.insert({
+            'meli_id': category['id'], 
+            'name': category['name']
+        })
+
