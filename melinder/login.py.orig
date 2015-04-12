@@ -18,6 +18,7 @@ REDIRECT_URI = "http://localhost:5000/authorize"
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
+<<<<<<< HEAD
 def login_required(func):
     def f(**args):
         if not 'access_token' in session or not 'refresh_token' in session:
@@ -25,6 +26,8 @@ def login_required(func):
     return f
 
 
+=======
+>>>>>>> fbcd5556ae82a8f519d92c3e7fda8c718368a9e7
 @app.route("/login")
 def login():
     redirectUrl = meli.auth_url(redirect_URI=REDIRECT_URI)
