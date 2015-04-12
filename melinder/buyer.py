@@ -16,10 +16,10 @@ def suggest_products():
     items_cursor = current_app.data.find('product', parse_request('product'), {})
     items = []
     for item in items_cursor:
-        if str(item['category']) in [str(p) for p in user['preferences']]:
-            item['_id'] = str(item['_id'])
-            item['category'] = str(item['category'])
-            items.append(item)
+        #if str(item['category']) in [str(p) for p in user['preferences']]:
+        item['_id'] = str(item['_id'])
+        item['category'] = str(item['category'])
+        items.append(item)
     random.shuffle(items)
 
     return json.dumps(items)
