@@ -67,7 +67,8 @@ def authorize():
 
     exists = current_app.data.find('user', parse_request('user'), {"meli_id": meli_user['id']})
     if exists.count() == 0:
-        user_id = str(current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']}))
+        user_id = str(current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email'],
+                                                       'preferences': []}))
     else:
         user_id = exists[0]['_id']
 
@@ -79,4 +80,6 @@ def authorize():
 @app.route("/api/me")
 @login_required
 def me():
-    return json.dumps({'id': session['meli_id'], 'email': session['meli_email']})
+    user = current_app.data.find('user', parse_request('user'), {'_id': session['user_id']})[0]
+
+    return json.dumps({'id': session['meli_id'], 'email': session['meli_email'], 'preferences': user['preferences']})
