@@ -1,5 +1,5 @@
 'use strict';
-var API_DOMAIN = 'http://ml-hackathon-g7.herokuapp.com';
+var API_DOMAIN = 'https://ml-hackathon-g7.herokuapp.com';
 
 var venderLibs = ['ui.router', 'ionic','ionic.contrib.ui.tinderCards'];
 

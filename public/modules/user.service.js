@@ -7,6 +7,8 @@ angular.module('melinder').service('Session', function () {
         this.username =username;
         this.email = email;
         this.preferences = preferences;
+
+        window.user = this;
     };
 
 
