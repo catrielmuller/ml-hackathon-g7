@@ -34,7 +34,11 @@
 
 }
 
+.main-header {
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.125);
+}
 
+<<<<<<< HEAD
 
 
 .box {
@@ -108,4 +112,12 @@ td-card img {
     -webkit-transition: 0.2s opacity linear;
     transition: 0.2s opacity linear;
     opacity: 0;
+}
+.title-header {
+    font-size: 0px !important;
+    min-height: 16px;
+    background-image: url('../img/logo-header.png') ;
+    background-repeat: no-repeat;
+    background-position: center;
+
 }

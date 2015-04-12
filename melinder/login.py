@@ -1,17 +1,15 @@
-from flask import render_template, redirect, request, session, current_app
-from eve import methods as api
-from eve.utils import parse_request
 import json
-import requests
-
+import os
 import sys
+
 sys.path.append('meli/lib')
+
+from eve.utils import parse_request
+from flask import redirect, request, session, current_app, send_from_directory
 from meli import Meli
 
-from melinder import app
-from settings import API
+from melinder import app, STATIC_FOLDER
 
-import os
 
 CLIENT_ID = os.environ.get('MELI_CLIENT_ID', 1740763944371557)
 CLIENT_SECRET = os.environ.get('MELI_CLIENT_SECRET', "vHgHCql4k59sqIkWfpNqPHedh6lucGEK")
@@ -33,6 +31,12 @@ def login():
     return redirect(redirectUrl)
 
 
+@login_required
+@app.route("/app")
+def app_begin():
+    return send_from_directory(STATIC_FOLDER, 'app.html')
+
+
 @app.route("/authorize")
 def authorize():
     if request.method == 'GET':
@@ -40,22 +44,23 @@ def authorize():
 
     session['access_token'] = meli.access_token
     session['refresh_token'] = meli.refresh_token
-    user = json.loads(meli.get("/users/me", {'access_token': session['access_token']}).content)
 
-    session['meli_user'] = user
+    meli_user = json.loads(meli.get("/users/me", {'access_token': session['access_token']}).content)
+    session['meli_email'] = meli_user['email']
+    session['meli_id'] = meli_user['id']
 
-    exists = current_app.data.find('user', parse_request('user'), {"meli_id": user['id']})
+    exists = current_app.data.find('user', parse_request('user'), {"meli_id": meli_user['id']})
     if exists.count() == 0:
-        user = current_app.data.insert('user', {'meli_id': user['id'], 'email': user['email']})
+        user_id = current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']})['_id']
     else:
-    	user = exists[0]
+        user_id = exists[0]['_id']
 
-    session['user_id'] = user._id
+    session['user_id'] = str(user_id)
 
-    return redirect("/")
+    return redirect("/app")
 
 
 @login_required
 @app.route("/api/me")
 def me():
-    return session['meli_user']
+    return json.dumps({'id': session['meli_id'], 'email': session['meli_email']})
