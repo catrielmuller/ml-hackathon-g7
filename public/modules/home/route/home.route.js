@@ -16,7 +16,7 @@ angular.module('melinder')
                         var redir = 'user.menu';
                         userService.getUserLoggued(function (user) {
                             console.log(user);
-                            if (!user.data.preferences || !user.data.preferences.length) {
+                            if (!user.preferences || !user.preferences.length) {
                                 redir = 'user.category';
                             }
                             $timeout(function(){
