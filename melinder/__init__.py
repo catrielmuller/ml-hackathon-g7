@@ -1,7 +1,7 @@
 import settings
 from eve import Eve
 
-from components import initialize, users, categories
+from components import initialize, users, categories, likes, offers, products
 import os
 
 
@@ -10,7 +10,8 @@ STATIC_FOLDER = os.path.join(PWD, 'public')
 
 app = Eve(settings=settings.EVE_SETTINGS, static_folder=STATIC_FOLDER)
 
-initialize.initialize_components(app, [users, categories])
+initialize.initialize_components(app, [users, categories, likes, offers, products])
+
 
 import login
 import melinder.views

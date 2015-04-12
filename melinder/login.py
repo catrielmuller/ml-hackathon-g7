@@ -38,16 +38,21 @@ def authorize():
 
     session['access_token'] = meli.access_token
     session['refresh_token'] = meli.refresh_token
-
     user = json.loads(meli.get("/users/me", {'access_token': session['access_token']}).content)
+
+    session['meli_user'] = user
+
     exists = current_app.data.find('user', parse_request('user'), {"meli_id": user['id']})
     if exists.count() == 0:
-        current_app.data.insert('user', {'meli_id': user['id'], 'email': user['email']})
+        user = current_app.data.insert('user', {'meli_id': user['id'], 'email': user['email']})
+    else:
+    	user = exists[0]
+
+    session['user_id'] = user._id
 
     return redirect("/")
 
 
 @app.route("/api/me")
 def me():
-    user = meli.get("/users/me", {'access_token': session['access_token']}).content
-    return user
+    return session['meli_user']
