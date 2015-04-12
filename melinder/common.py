@@ -10,7 +10,7 @@ from login import meli, login_required
 
 
 MELI_TO_AMAZON = {
-    'Autos, Motos y Otros': 'Automotive', 'Bebes': 'Baby', 'Computaci\\u00f3n': 'Computers',
+    'Accesorios para Veh\\u00edculos': 'Automotive', 'Bebes': 'Baby', 'Computaci\\u00f3n': 'Computers',
     'Consolas y Videojuegos': 'VideoGames', 'Deportes y Fitness': 'SportingGoods',
     'Electr\\u00f3nica, Audio y Video': 'Electronics', 'Industrias y Oficinas': 'OfficeProducts',
     'Instrumentos Musicales': 'MusicalInstruments', 'Joyas y Relojes': 'Jewelry',
@@ -20,9 +20,10 @@ MELI_TO_AMAZON = {
 }
 
 
-amazon_api = API(locale='es', access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
-                 secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'),
-                 associate_tag=os.environ.get('AWS_ASSOCIATE_TAG'))
+amazon_api = API(locale='es')
+    #, access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+    #             secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'),
+    #             associate_tag=os.environ.get('AWS_ASSOCIATE_TAG'))
 
 
 @app.route('/')
