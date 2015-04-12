@@ -14,7 +14,7 @@ angular.module('melinder')
                 $http.post(API_DOMAIN+'/api/product/'+productId+'/like ',vote).then(callback);
             },
             saveCategories:function(userId,categories,callback){
-                $http.post(API_DOMAIN+'/api/user/'+userId,{preferences:categories}).then(callback);
+                $http.post(API_DOMAIN+'/api/user/update_preferences',{preferences:categories}).then(callback);
             },
 
             getProductsShuffled:function(callback){
