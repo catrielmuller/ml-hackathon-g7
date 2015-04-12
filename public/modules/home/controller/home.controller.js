@@ -4,7 +4,7 @@ angular.module('melinder')
 
     .controller('homeController', function($scope , $http){
 
-        $http.GET(API_DOMAIN + '/api/suggest_products').then(function(data){
+        $http.get(API_DOMAIN + '/api/suggest_products').then(function(data){
             $scope.products = data.data;
         });
 
@@ -28,7 +28,7 @@ angular.module('melinder')
             newCard.id = Math.random();
             $scope.products.unshift(angular.extend({}, newCard));
 
-            $http.POST(API_DOMAIN + '/api/product/' + $scope.products[index]._id + '/like', {value: save}).then(function(data){
+            $http.post(API_DOMAIN + '/api/product/' + $scope.products[index]._id + '/like', {value: save}).then(function(data){
                 console.log('paso loquillo', data);
             });
 
