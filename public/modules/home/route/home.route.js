@@ -1,6 +1,5 @@
 'use strict';
 
-console.log(angular.module('melinder'));
 angular.module('melinder')
     .config(function($stateProvider) {
 
@@ -16,17 +15,25 @@ angular.module('melinder')
                     intro : function($timeout, $state){
                         $timeout(function(){
                             console.log('me voooy');
-                            $state.transitionTo('menu');
+                            $state.transitionTo('user.menu');
                         },3000)
                     }
 
                 }
 
             })
-            .state('menu', {
+            .state('user', {
+                abstract: true,
+                template: '<div ui-view></div>',
+                resolve: {
+                    userLogged: ['userService', function (userService) {
+                        return userService.getUserLoggued();
+                    }]
+                }
+            })
+            .state('user.menu', {
                 url: '/menu',
                 templateUrl: 'modules/home/view/home.html'
-
             })
 
 });

@@ -33,7 +33,7 @@ angular.module('melinder')
             getUserLoggued:function(callback){
 
                 if(!Session.isAlive()){
-                    $http.get('/api/me').then(function(dataUser){
+                    $http.get(API_DOMAIN +'/api/me').then(function(dataUser){
                             Session.create(dataUser.id,dataUser.userName,dataUser.email,dataUser.preferences);
 
                         if(callback) callback(dataUser);
