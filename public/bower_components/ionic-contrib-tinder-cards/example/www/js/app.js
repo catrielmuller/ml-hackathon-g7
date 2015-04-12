@@ -27,14 +27,14 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
   console.log('Cards', $scope.cards);
 
   $scope.cardSwiped = function(index) {
-    $scope.addCard();
+    $scope.addProduct();
   };
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
-  $scope.addCard = function() {
+  $scope.addProduct = function() {
     var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
