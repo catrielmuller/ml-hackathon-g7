@@ -2,9 +2,11 @@ from amazonproduct import API
 from eve.utils import parse_request
 
 from melinder import app
-from login import login_required
+from login import meli, login_required
+
 from flask import send_from_directory, current_app
 import os
+import json
 
 
 PWD = os.environ.get('PWD')
@@ -46,20 +48,26 @@ def change_price():
 
 
 @login_required
-@app.route('/test')
-def test():
-    current_app.data.insert('like', {'like': 'true'})
-    return ""
+@app.route('/api/product/<product_id>/like')
+def like(product_id):
+    current_app.data.insert('like', {'does_like': request.get('value'), 'user': request['user_id'], 'product': product_id})
+    product = current_app.data.find("product", {'_id': like.product})
+    category = current_app.data.find("category", {'_id': product.category})
+
+    items = json.loads(meli.get("/sites/MLA/search/?category=%s&q=%s" % (category.meli_id, product.description)).content)
+
+    return items
 
 
 @login_required
 @app.route('/load_categories')
-def load_categories(likes):
+def load_categories():
     categories = json.loads(meli.get("/sites/MLA/categories").content)
-    return categories
+    return json.dumps(categories)
     for category in categories:
-        current_app.data.category.insert({
+        current_app.data.insert('category', {
             'meli_id': category['id'], 
             'name': category['name']
         })
+    return categories
 
