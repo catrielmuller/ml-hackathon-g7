@@ -1,5 +1,6 @@
 from flask import render_template, redirect, request, session, current_app
 from eve import methods as api
+from eve.utils import parse_request
 import json
 import requests
 
@@ -34,16 +35,10 @@ def authorize():
     session['refresh_token'] = meli.refresh_token
 
     user = json.loads(meli.get("/users/me", {'access_token': session['access_token']}).content)
-    exists = api.get('user', {'where': '{"meli_id": "%d"}' % user['id']})[0]['_items']
-    if not exists:
-        current_app.data.insert('user', {'meli_id': 6, 'email': 'bla'})
+    exists = current_app.data.find('user', parse_request('user'), {"meli_id": user['id']})
+    if exists.count() == 0:
+        current_app.data.insert('user', {'meli_id': user['id'], 'email': user['email']})
 
     return redirect("/")
 
-
-@app.route("/")
-def index():
-    if not 'access_token' in session or not 'refresh_token' in session:
-        return redirect("/login")
-    return redirect("/index.html")
 
