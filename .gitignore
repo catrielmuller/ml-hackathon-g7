@@ -61,3 +61,4 @@ target/
 
 .amazon-product-api*
 amazontest.py*
+.DS_Store
