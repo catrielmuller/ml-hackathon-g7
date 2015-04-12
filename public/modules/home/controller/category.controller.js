@@ -16,7 +16,7 @@ angular.module('melinder')
             console.log( $scope.categories.length ? true : false);
             for(var i = 0; i < $scope.categories.length; i++ ){
                 if($scope.categories[i].checked){
-                    catPost.push($scope.categories[i].id);
+                    catPost.push($scope.categories[i]._id);
                 }
             }
             productsService.saveCategories(Session.id || window.user.id, catPost,function(data){
