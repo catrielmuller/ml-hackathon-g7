@@ -7,9 +7,9 @@ from melinder import app, STATIC_FOLDER
 from login import meli, login_required
 
 
-@app.route('/api/product/<product_id>/like')
+@app.route('/api/product/<product_id>/likes')
 @login_required
-def like(product_id):
+def likes(product_id):
     product = current_app.data.find("product", parse_request('product'), {'_id': product_id})[0]
     category = current_app.data.find("category", parse_request('category'), {'_id': product['category']})[0]
 
