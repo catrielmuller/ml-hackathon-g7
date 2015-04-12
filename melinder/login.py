@@ -11,16 +11,18 @@ from meli import Meli
 from melinder import app
 from settings import API
 
-CLIENT_ID = 1740763944371557
-CLIENT_SECRET = "vHgHCql4k59sqIkWfpNqPHedh6lucGEK"
-REDIRECT_URI = "http://localhost:5000/authorize"
+import os
+
+CLIENT_ID = os.environ.get('MELI_CLIENT_ID', 1740763944371557)
+CLIENT_SECRET = os.environ.get('MELI_CLIENT_SECRET', "vHgHCql4k59sqIkWfpNqPHedh6lucGEK")
+REDIRECT_URI = os.environ.get('REDIRECT_URI', "http://localhost:5000/authorize")
 
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
 def login_required(func):
     def f(**args):
-        if not 'access_token' in session or not 'refresh_token' in session:
+        if not 'access_token' in session or not 'refresh_token' in session or not 'meli_user' in session:
             return redirect("/login")
     return f
 
@@ -53,6 +55,7 @@ def authorize():
     return redirect("/")
 
 
+@login_required
 @app.route("/api/me")
 def me():
     return session['meli_user']
