@@ -8,17 +8,17 @@ angular.module('melinder')
                 $http.get(API_DOMAIN+'/api/category').then(callback);
             },
             getProductsByCategory:function(categoryId,callback){
-                $http.get(API_DOMAIN+' /api/product?where={"category": "'+categoryId+'"}').then(callback);
+                $http.get(API_DOMAIN+'/api/product?where={"category": "'+categoryId+'"}').then(callback);
             },
             voteProduct:function(productId,vote,callback){
-                $http.post(API_DOMAIN+' /api/product/'+productId+'/like ',vote).then(callback);
+                $http.post(API_DOMAIN+'/api/product/'+productId+'/like ',vote).then(callback);
             },
             saveCategories:function(userId,categories,callback){
-                $http.post(API_DOMAIN+' /api/user/'+userId,{preferences:categories}).then(callback);
+                $http.post(API_DOMAIN+'/api/user/'+userId,{preferences:categories}).then(callback);
             },
 
             getProductsShuffled:function(callback){
-                $http.post(API_DOMAIN+' /api/suggest_products',{preferences:categories}).then(callback);
+                $http.post(API_DOMAIN+'/api/suggest_products',{preferences:categories}).then(callback);
             }
         };
 
