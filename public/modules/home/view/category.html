@@ -1,0 +1,19 @@
+
+<ion-content  >
+
+    <ul class="list">
+        <li class="item" ng-repeat="category in categories">
+            <div class="item item-checkbox">
+                <label class="checkbox">
+                    <input type="checkbox" ng-checked="category.checked">
+                </label>
+                {{category.name}}
+            </div>
+        </li>
+    </ul>
+
+    <div class="padding">
+        <button class="button button-block button-positive" ng-click="guardarCategories()">Finalizar</button>
+    </div>
+
+</ion-content>
