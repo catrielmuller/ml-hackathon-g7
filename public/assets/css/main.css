@@ -1,6 +1,42 @@
+.container-intro {
+    padding: 10px 10px 20px 10px;
+    text-align: center;
+}
+
+.wrapp-text {
+    padding: 10px 20px;
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.main-title {
+    text-align: center;
+    background-image: url('../img/logo-text.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 0px;
+    min-height: 34px;
+}
+
+.wrapp-intro {
+    max-width: 768px;
+    margin: 0 auto;
+
+}
 
 
 
 
-
-
+.box {
+    min-height: 200px;
+}
