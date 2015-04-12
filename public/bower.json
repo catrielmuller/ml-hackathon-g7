@@ -13,6 +13,7 @@
     "ui-router": "~0.2.13",
     "ionic": "driftyco/ionic-bower#master",
     "animate.css": "~3.2.6",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "ionic-contrib-tinder-cards": "*"
   }
 }
