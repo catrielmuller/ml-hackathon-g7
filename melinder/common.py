@@ -26,13 +26,11 @@ amazon_api = API(locale='es', access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
 
 
 @app.route('/')
-@login_required
 def index():
     return send_from_directory(STATIC_FOLDER, "index.html")
 
 
 @app.route('/<path:path>')
-@login_required
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
 
