@@ -65,31 +65,13 @@ def update_amazon_products():
     return ''
 
 
-@app.route('/api/offer/<offer>/change_price/')
-@login_required
-def change_price():
-    # chequear que <offer> sea de <me>
-    # publicar un item igual a <offer>
-    # devolver item
-    #meli.get("/sites/MLA/search/?category=MLA5725&q=ipod", {'access_token': session['access_token']}).content
-    return ""
-
-
-@app.route('/api/product/<product_id>/like')
-@login_required
-def like(product_id):
-    current_app.data.insert('like', {'does_like': request.args.get('value'), 'user': session['user_id'], 'product': product_id})
-    product = current_app.data.find("product", parse_request('product'), {'_id': like.product})
-    category = current_app.data.find("category", parse_request('category'), {'_id': product.category})
-
-    items = json.loads(meli.get("/sites/MLA/search/?category=%s&q=%s" % (category.meli_id, product.description)).content)
-
-    return items
-
 
 @app.route('/load_categories')
 @login_required
 def load_categories():
+    # Borrar las categorias viejas
+    #for category in current_app.data.find('category', parse_request('category'), {}):
+    #    current_app.data.remove('category', {'_id': str(category['_id'])})
     categories = json.loads(meli.get("/sites/MLA/categories").content)
     for category in categories:
         if category['name'] in MELI_TO_AMAZON:

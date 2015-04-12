@@ -14,4 +14,6 @@ initialize.initialize_components(app, [users, categories, likes, offers, product
 
 
 import login
-import melinder.views
+import melinder.common
+import melinder.buyer
+import melinder.seller
