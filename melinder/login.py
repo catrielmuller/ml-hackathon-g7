@@ -53,12 +53,6 @@ def app_begin():
 
 
 
-@app.route("/")
-def index():
-    return send_from_directory(STATIC_FOLDER, 'index.html')
-
-
-
 @app.route("/authorize")
 def authorize():
     if request.method == 'GET':
