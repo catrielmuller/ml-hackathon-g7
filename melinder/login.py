@@ -19,9 +19,10 @@ meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
 def login_required(func):
-    def f(**args):
-        if not 'access_token' in session or not 'refresh_token' in session or not 'meli_user' in session:
+    def f(*args, **kwargs):
+        if not 'access_token' in session or not 'refresh_token' in session or not 'meli_id' in session:
             return redirect("/login")
+        return func(*args, **kwargs)
     return f
 
 
@@ -51,7 +52,7 @@ def authorize():
 
     exists = current_app.data.find('user', parse_request('user'), {"meli_id": meli_user['id']})
     if exists.count() == 0:
-        user_id = current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']})['_id']
+        user_id = str(current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']}))
     else:
         user_id = exists[0]['_id']
 
@@ -63,4 +64,6 @@ def authorize():
 @login_required
 @app.route("/api/me")
 def me():
+    if not 'access_token' in session or not 'refresh_token' in session or not 'meli_id' in session:
+        return redirect("/login")
     return json.dumps({'id': session['meli_id'], 'email': session['meli_email']})
