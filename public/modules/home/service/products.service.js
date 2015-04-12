@@ -15,6 +15,10 @@ angular.module('melinder')
             },
             saveCategories:function(userId,categories,callback){
                 $http.post(API_DOMAIN+' /api/user/'+userId,{preferences:categories}).then(callback);
+            },
+
+            getProductsShuffled:function(callback){
+                $http.post(API_DOMAIN+' /api/suggest_products',{preferences:categories}).then(callback);
             }
         };
 

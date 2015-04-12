@@ -2,7 +2,7 @@
 
 angular.module('melinder')
 
-    .controller('homeController', function($scope ){
+    .controller('homeController', function($scope , $http){
 
         $scope.products = [
             { image: 'https://pbs.twimg.com/profile_images/546942133496995840/k7JAxvgq.jpeg', name: 'asdasd fdg df hg gfh gfh gf h hjjhj' },
@@ -19,10 +19,15 @@ angular.module('melinder')
                 $scope.products.push(newCard);
         };
 
-        $scope.addProduct = function() {
+        $scope.addProduct = function(index, save) {
             var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
             newCard.id = Math.random();
             $scope.products.unshift(angular.extend({}, newCard));
+
+            $http.POST(API_DOMAIN + '/api/product/' + $scope.products[index].id + '/like', {value: true}).then(function(data){
+                console.log('paso loquillo', data);
+            });
+
         }
     })
 
@@ -31,11 +36,11 @@ angular.module('melinder')
 
         $scope.onSwipeLeft = function(index) {
             console.log('LEFT SWIPE');
-            $scope.addProduct();
+            $scope.addProduct(index, true);
         };
         $scope.onSwipeRight = function(index) {
             console.log('RIGHT SWIPE');
-            $scope.addProduct();
+            $scope.addProduct(index, false );
         };
 
         $scope.onSwipeUp = function(index){

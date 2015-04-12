@@ -7,6 +7,8 @@ angular.module('melinder').service('Session', function () {
         this.username =username;
         this.email = email;
         this.preferences = preferences;
+
+        window.user = this;
     };
 
 
@@ -34,9 +36,9 @@ angular.module('melinder')
 
                 if(!Session.isAlive()){
                     $http.get(API_DOMAIN +'/api/me').then(function(dataUser){
-                            Session.create(dataUser.id,dataUser.userName,dataUser.email,dataUser.preferences);
+                            Session.create(dataUser.data.id,dataUser.data.userName,dataUser.data.email,dataUser.data.preferences);
 
-                        if(callback) callback(dataUser);
+                        if(callback) callback(dataUser.data);
                     });
                 }else{
                     return Session;
