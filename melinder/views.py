@@ -1,6 +1,7 @@
 from melinder import app
 from flask import send_from_directory, session
 import os
+import json
 
 PWD = os.environ.get('PWD')
 STATIC_FOLDER = os.path.join(PWD, 'public')
@@ -23,3 +24,4 @@ def index():
 @app.route('/<path:path>')
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
+

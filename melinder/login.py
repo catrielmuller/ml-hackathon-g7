@@ -13,11 +13,9 @@ from settings import API
 
 CLIENT_ID = 1740763944371557
 CLIENT_SECRET = "vHgHCql4k59sqIkWfpNqPHedh6lucGEK"
-#REDIRECT_URI = "http://3b38f96a.ngrok.com/authorize"
 REDIRECT_URI = "http://localhost:5000/authorize"
 
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-
 
 
 @app.route("/login")
@@ -42,3 +40,7 @@ def authorize():
     return redirect("/")
 
 
+@app.route("/api/me")
+def me():
+    user = meli.get("/users/me", {'access_token': session['access_token']}).content
+    return user
