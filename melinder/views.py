@@ -31,7 +31,12 @@ def update_amazon_products():
 
     for category in categories:
         for product in amazon_api.item_search(category['amazon_name'], Keywords=category['name']):
-            product_entry = {''}
+            exists = current_app.data.find('product', parse_request('product'), {'product_id': product.ASIN})
+            if not exists:
+                image_url = amazon_api.item_lookup(product.ASIN, ResponseGroup='Images').Item.LargeImage.URL
+                product_entry = {'product_id': product.ASIN, 'image_url': image_url, 'description': product.Title,
+                                 'category': category['_id']}
+                current_app.data.insert('product', product_entry)
 
 
 @login_required
@@ -42,7 +47,6 @@ def change_price():
     # devolver item
     #meli.get("/sites/MLA/search/?category=MLA5725&q=ipod", {'access_token': session['access_token']}).content
     return ""
-
 
 
 @login_required
