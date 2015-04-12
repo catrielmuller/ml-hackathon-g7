@@ -51,17 +51,17 @@ def update_amazon_products():
             if not exists:
                 try:
                     image_url = amazon_api.item_lookup(str(product.ASIN), ResponseGroup='Images').Items.Item.LargeImage.URL
-                except AttributeError:
-                    image_url = amazon_api.item_lookup(str(product.ASIN), ResponseGroup='Images').Items.Item.URL
 
-                product_entry = {
-                    'product_id': str(product.ASIN),
-                    'image_url': str(image_url),
-                    'description': unicode(product.ItemAttributes.Title),
-                    'category': category['_id']
-                }
-                app.logger.debug('Entry {}'.format(product_entry))
-                current_app.data.insert('product', product_entry)
+                    product_entry = {
+                        'product_id': str(product.ASIN),
+                        'image_url': str(image_url),
+                        'description': unicode(product.ItemAttributes.Title),
+                        'category': category['_id']
+                    }
+                    app.logger.debug('Entry {}'.format(product_entry))
+                    current_app.data.insert('product', product_entry)
+                except AttributeError:
+                    continue
 
     return ''
 
