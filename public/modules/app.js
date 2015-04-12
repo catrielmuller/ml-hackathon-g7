@@ -17,7 +17,7 @@ app.run(function($interval,$http, $rootScope){
 
     $interval(function(){
         if(window.user.id && window.user.preferences && window.user.preferences.length){
-            $http.GET(API_DOMAIN + '/api/offer').then(function(data){
+            $http.get(API_DOMAIN + '/api/offer').then(function(data){
                 $rootScope.notifications =  data.data;
             })
         }
