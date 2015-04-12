@@ -1,14 +1,25 @@
+from flask import send_from_directory, current_app, request
+import json
+import os
+
 from amazonproduct import API
 from eve.utils import parse_request
 
 from melinder import app
-from login import login_required
-from flask import send_from_directory, current_app
-import os
+from login import meli, login_required
 
 
 PWD = os.environ.get('PWD')
 STATIC_FOLDER = os.path.join(PWD, 'public')
+MELI_TO_AMAZON = {
+    'Autos, Motos y Otros': 'Automotive', 'Bebes': 'Baby', 'Computaci\\u00f3n': 'Computers',
+    'Consolas y Videojuegos': 'VideoGames', 'Deportes y Fitness': 'SportingGoods',
+    'Electr\\u00f3nica, Audio y Video': 'Electronics', 'Industrias y Oficinas': 'OfficeProducts',
+    'Instrumentos Musicales': 'MusicalInstruments', 'Joyas y Relojes': 'Jewelry',
+    'Juegos y Juguetes': 'Toys', 'Libros, Revistas y Comics': 'Books',
+    'M\\u00fasica, Pel\\u00edculas y Series': 'DVD', 'Ropa y Accesorios': 'Apparel',
+    'Salud y Belleza': 'HealthPersonalCare'
+}
 
 amazon_api = API(locale='es')
 
@@ -31,7 +42,12 @@ def update_amazon_products():
 
     for category in categories:
         for product in amazon_api.item_search(category['amazon_name'], Keywords=category['name']):
-            pass
+            exists = current_app.data.find('product', parse_request('product'), {'product_id': product.ASIN})
+            if not exists:
+                image_url = amazon_api.item_lookup(product.ASIN, ResponseGroup='Images').Item.LargeImage.URL
+                product_entry = {'product_id': product.ASIN, 'image_url': image_url, 'description': product.Title,
+                                 'category': category['_id']}
+                current_app.data.insert('product', product_entry)
 
 
 @login_required
@@ -44,11 +60,27 @@ def change_price():
     return ""
 
 
+@login_required
+@app.route('/api/product/<product_id>/like')
+def like(product_id):
+    current_app.data.insert('like', {'does_like': request.get('value'), 'user': request['user_id'], 'product': product_id})
+    product = current_app.data.find("product", {'_id': like.product})
+    category = current_app.data.find("category", {'_id': product.category})
+
+    items = json.loads(meli.get("/sites/MLA/search/?category=%s&q=%s" % (category.meli_id, product.description)).content)
+
+    return items
+
 
 @login_required
-@app.route('/test')
-def test():
-    current_app.data.insert('like', {'like': 'true'})
+@app.route('/load_categories')
+def load_categories():
+    categories = json.loads(meli.get("/sites/MLA/categories").content)
+    return json.dumps(categories)
+    for category in categories:
+        current_app.data.insert('category', {
+            'meli_id': category['id'], 
+            'name': category['name']
+        })
+    return categories
 
-    #meli.get("/sites/MLA/search/?category=MLA5725&q=ipod", {'access_token': session['access_token']}).content
-    return ""

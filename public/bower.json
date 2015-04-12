@@ -12,6 +12,7 @@
     "angular": "~1.3.13",
     "ui-router": "~0.2.13",
     "ionic": "driftyco/ionic-bower#master",
-    "ionic-contrib-tinder-cards": "*"
+    "ionic-contrib-tinder-cards": "*",
+    "animate.css": "~3.2.6"
   }
 }
