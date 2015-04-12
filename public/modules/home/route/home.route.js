@@ -37,5 +37,11 @@ angular.module('melinder')
                 controller:'homeController'
             })
 
+            .state('user.category', {
+                url: '/category',
+                templateUrl: 'modules/home/view/category.html',
+                controller:'categoryController'
+            });
+
 });
 

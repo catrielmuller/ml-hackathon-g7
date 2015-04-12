@@ -40,10 +40,14 @@ angular.module('melinder')
 
         $scope.onSwipeUp = function(index){
             $scope.addProduct();
+            console.log('UP SWIPE');
         }
 
         $scope.onSwipeDown = function(index){
+            console.log('DOWN SWIPE');
             $scope.addProduct();
         }
 
     });
+
+
