@@ -5,7 +5,7 @@
         <li class="item" ng-repeat="category in categories">
             <div class="item item-checkbox">
                 <label class="checkbox">
-                    <input type="checkbox" ng-checked="category.checked">
+                    <input type="checkbox" ng-model="category.checked" ng-checked="category.checked">
                 </label>
                 {{category.name}}
             </div>
