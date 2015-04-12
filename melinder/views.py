@@ -31,7 +31,7 @@ def update_amazon_products():
 
     for category in categories:
         for product in amazon_api.item_search(category['amazon_name'], Keywords=category['name']):
-            pass
+            product_entry = {''}
 
 
 @login_required
