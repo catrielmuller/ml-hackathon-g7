@@ -36,20 +36,29 @@ def static_proxy(path):
 @app.route('/update_amazon_products')
 @login_required
 def update_amazon_products():
-    categories = current_app.data.find('category', parse_request('category'))[0]
-
+    categories = current_app.data.find('category', parse_request('category'), {})
+    app.logger.debug('Categories {}'.format(categories))
     for category in categories:
+        app.logger.debug('Category {}'.format(category))
         for product in amazon_api.item_search(category['amazon_name'], Keywords=category['name']):
-            exists = current_app.data.find('product', parse_request('product'), {'product_id': product.ASIN})
+            app.logger.debug('Product ASIN {}'.format(product.ASIN))
+            exists = current_app.data.find('product', parse_request('product'), {'product_id': str(product.ASIN)}).count() > 0
             if not exists:
-                image_url = amazon_api.item_lookup(product.ASIN, ResponseGroup='Images').Item.LargeImage.URL
+                try:
+                    image_url = amazon_api.item_lookup(str(product.ASIN), ResponseGroup='Images').Items.Item.LargeImage.URL
+                except AttributeError:
+                    image_url = amazon_api.item_lookup(str(product.ASIN), ResponseGroup='Images').Items.Item.URL
+
                 product_entry = {
-                    'product_id': product.ASIN,
-                    'image_url': image_url,
-                    'description': product.Title,
+                    'product_id': str(product.ASIN),
+                    'image_url': str(image_url),
+                    'description': unicode(product.ItemAttributes.Title),
                     'category': category['_id']
                 }
+                app.logger.debug('Entry {}'.format(product_entry))
                 current_app.data.insert('product', product_entry)
+
+    return ''
 
 
 @app.route('/api/offer/<offer>/change_price/')
