@@ -10,11 +10,53 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link href='http://fonts.googleapis.com/css?family=Cabin:500' rel='stylesheet' type='text/css'>
 
         <style type="text/css">
-            #mobilev {
-                width: 450px;
+            #text {
+                font-family: 'Cabin', sans-serif;
+                float: left;
+                text-align: center;
+                font-size: 37px;
+                width: 480px;
+            }
+
+            #text h1 {
+                color: #0076FF;
+                padding-top: 50px;
+            }
+
+            #main {
+                width: 960px;
                 height: 800px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -480px;
+                margin-top: -400px;
+            }
+
+
+            #demo {
+                background: url(assets/img/NexusMock.png) no-repeat;
+                position: relative;
+                width: 469px;
+                height: 800px;
+                background-size: contain;
+                float: left;
+            }
+
+            #mobilev {
+                width: 300px;
+                height: 531px;
+                top: 120px;
+                left: 82px;
+                position: absolute;
+                background: white;
+            }
+
+            #text a {
+                margin: 0px 20px;
             }
 
         </style>
@@ -24,10 +66,17 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-
-        <div id="demo">
-            <iframe id="mobilev" src="index.html"></iframe>
+        <div id="main">
+            <div id="demo">
+                <iframe id="mobilev" src="index.html"></iframe>
+            </div>
+            <div id="text">
+                <h1><img src="assets/img/logo.png"></h1>
+                <p>Encontra lo que te gusta, recibi los mejores precios</p>
+                <p><a href="#"><img src="assets/img/android.png"></a><a href="#"><img src="assets/img/ios.png"></a></p>
+            </div>
         </div>
+
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
