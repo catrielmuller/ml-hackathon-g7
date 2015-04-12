@@ -15,7 +15,6 @@ angular.module('melinder')
             productsService.saveCategories(Session.id,categories,function(data){
                 $state.go('user.menu');
             });
-            $state.go('user.menu');
 
         }
 
