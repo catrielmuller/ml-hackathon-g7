@@ -1,20 +1,11 @@
 'use strict';
 
-var venderLibs = ['ui.router'];
+var venderLibs = ['ui.router', 'ionic'];
 
-angular.module('melinder', venderLibs)
-    .config(function($stateProvider, $urlRouterProvider,$locationProvider ) {
+var app = angular.module('melinder', venderLibs);
 
-        $urlRouterProvider
-            .otherwise('/');
+app.config(function($stateProvider, $urlRouterProvider) {
 
-        $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/');
 
-        $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: "/modules/home/view/home.html"
-            })
-
-
-    })
+    });
