@@ -12,12 +12,19 @@ angular.module('melinder')
                     userLogged:['userService',function(userService){
                         return userService.getUserLoggued();
                     }],
-                    intro : function($timeout, $state){
-                        $timeout(function(){
-                            console.log('me voooy');
-                            $state.transitionTo('user.menu');
-                        },3000)
-                    }
+                    intro :['$timeout','$state', 'Session','userService',function($timeout, $state,Session,userService){
+                        var redir = 'user.menu';
+                        userService.getUserLoggued(function (user) {
+                            console.log(user);
+                            if (!user.data.preferences || !user.data.preferences.length) {
+                                redir = 'user.category';
+                            }
+                            $timeout(function(){
+                                $state.transitionTo(redir);
+                            },3000);
+                        });
+
+                    }]
 
                 }
 
@@ -27,7 +34,7 @@ angular.module('melinder')
                 templateUrl: 'modules/home/view/header.html',
                 resolve: {
                     userLogged: ['userService', function (userService) {
-                   //     return userService.getUserLoggued();
+                        //     return userService.getUserLoggued();
                     }]
                 }
             })
@@ -43,5 +50,5 @@ angular.module('melinder')
                 controller:'categoryController'
             });
 
-});
+    });
 
