@@ -40,11 +40,6 @@
     box-shadow: 0px 0px 5px rgba(0,0,0,0.125);
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a79bb5a1e6d961396b4432f20ea30fd5b83de11f
 
 .box {
     min-height: 200px;
@@ -189,10 +184,6 @@ td-card.card-2 {
     overflow: visible !important;
 }
 
-<<<<<<< HEAD
-}
-
-=======
 
 
 .c-btn {
@@ -255,4 +246,4 @@ td-card.card-2 {
     z-index: -1;
     background-size: cover;
 }
->>>>>>> a79bb5a1e6d961396b4432f20ea30fd5b83de11f
+
