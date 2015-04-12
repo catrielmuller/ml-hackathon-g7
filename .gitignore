@@ -58,3 +58,6 @@ target/
 
 # PyCharm
 .idea/
+
+.amazon-product-api*
+amazontest.py*

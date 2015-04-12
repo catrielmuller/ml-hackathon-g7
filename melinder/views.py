@@ -1,16 +1,16 @@
-from melinder import app
-from flask import send_from_directory, session
 import os
+
+from amazonproduct import API
+from eve.utils import parse_request
+from flask import send_from_directory, current_app
+
+from melinder import app
+from melinder.login import login_required
 
 PWD = os.environ.get('PWD')
 STATIC_FOLDER = os.path.join(PWD, 'public')
 
-
-def login_required(func):
-    def f(**args):
-        if not 'access_token' in session or not 'refresh_token' in session:
-            return redirect("/login")
-    return f
+amazon_api = API(locale='es')
 
 
 @login_required
@@ -23,3 +23,12 @@ def index():
 @app.route('/<path:path>')
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
+
+
+@app.route('/update_amazon_products')
+def update_amazon_products():
+    categories = current_app.data.find('category', parse_request('category'))[0]
+
+    for category in categories:
+        for product in amazon_api.item_search(category['amazon_name'], Keywords=category['name']):
+            pass
