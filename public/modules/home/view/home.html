@@ -1,22 +1,21 @@
 
-<ion-content scroll = "false">
+<ion-content has-bouncing="false">
 
-    <ion-slide-box on-slide-changed="slideHasChanged($index)">
-            <ion-slide>
-                <div class="box blue">
-                    <img src="assets/img/mock.png">
-                </div>
-            </ion-slide>
-            <ion-slide>
-                <div class="box yellow">
-                    <img src="assets/img/mock.png">
-                </div>
-            </ion-slide>
-            <ion-slide>
-                <div class="box pink">
-                    <img src="assets/img/mock.png">
-                </div>
-            </ion-slide>
-    </ion-slide-box>
+    <td-cards>
+        <td-card ng-repeat="product in products"
+                 on-destroy="cardDestroyed($index)"
+                 on-swipe-left="onSwipeLeft($index)"
+                 on-swipe-right="onSwipeRight($index)"
+                 on-swipe-down="onSwipeDown($index)"
+                 on-swipe-up="onSwipeUp($index)">
+
+            <div class="image" ng-controller="CardCtrl">
+                <div class="no-text">NOPE</div>
+                <img ng-src="{{product.image}}">
+                <div class="yes-text">LIKE</div>
+            </div>
+
+        </td-card>
+    </td-cards>
 
 </ion-content>

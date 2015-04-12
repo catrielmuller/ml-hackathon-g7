@@ -27,13 +27,14 @@ angular.module('melinder')
                 templateUrl: 'modules/home/view/header.html',
                 resolve: {
                     userLogged: ['userService', function (userService) {
-                        return userService.getUserLoggued();
+                   //     return userService.getUserLoggued();
                     }]
                 }
             })
             .state('user.menu', {
                 url: '/menu',
-                templateUrl: 'modules/home/view/home.html'
+                templateUrl: 'modules/home/view/home.html',
+                controller:'homeController'
             })
 
 });
