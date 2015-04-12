@@ -60,14 +60,14 @@ def get_offers():
         if session['user_id'] == str(l['user']):
             offers = current_app.data.find('offer', parse_request('offer'), {})
             os = [o for o in offers if str(o['product']) == str(l['product'])]
-            app.logger.debug(os)
             avg = sum([o['original_price'] for o in os]) / (1.0 * offers.count())
             os = sorted(os, key=lambda x: x['original_price'])
             least = os[0]
             least['avg'] = avg
-            least['percent_discount'] = min((avg - least['new_price']) / (1.0 * avg), 0)
+            least['percent_discount'] = 100*max((avg - least['original_price']) / (1.0 * avg), 0)
+            least['product'] = str(least['product'])
+            least['_id'] = str(least['_id'])
+
             res.append(least)
 
     return json.dumps(res)
-
-
