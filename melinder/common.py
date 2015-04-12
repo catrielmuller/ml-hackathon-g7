@@ -27,13 +27,11 @@ amazon_api = API(locale='es')
 
 
 @app.route('/')
-@login_required
 def index():
     return send_from_directory(STATIC_FOLDER, "index.html")
 
 
 @app.route('/<path:path>')
-@login_required
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
 
