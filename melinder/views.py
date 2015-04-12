@@ -81,7 +81,7 @@ def load_categories():
     for category in categories:
         if category['name'] in MELI_TO_AMAZON:
             exists = current_app.data.find("category", parse_request('category'), {'name': category['name']})
-            if not exists:
+            if exists.count() == 0:
                 category_entry = {
                     'name': category['name'],
                     'meli_id': category['id'],
