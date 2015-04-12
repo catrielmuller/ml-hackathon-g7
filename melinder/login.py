@@ -15,7 +15,7 @@ import os
 
 CLIENT_ID = os.environ.get('MELI_CLIENT_ID', 1740763944371557)
 CLIENT_SECRET = os.environ.get('MELI_CLIENT_SECRET', "vHgHCql4k59sqIkWfpNqPHedh6lucGEK")
-REDIRECT_URI = os.environ.get('REDIRECT_URI', "http://localhost:5000/authorize")
+REDIRECT_URI = os.environ.get('MELI_REDIRECT_URI', "http://localhost:5000/authorize")
 
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
