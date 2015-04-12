@@ -251,3 +251,13 @@ td-card.card-2 {
     background-size: cover;
 }
 
+.notifications {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 8px;
+    background: #4464ff;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
