@@ -24,7 +24,7 @@ angular.module('melinder')
             })
             .state('user', {
                 abstract: true,
-                template: '<div ui-view></div>',
+                templateUrl: 'modules/home/view/header.html',
                 resolve: {
                     userLogged: ['userService', function (userService) {
                         return userService.getUserLoggued();
