@@ -27,3 +27,4 @@ else:
     EVE_SETTINGS['MONGO_DBNAME'] = 'melinder'
     EVE_SETTINGS['MONGO_URI'] = 'mongodb://localhost:27017/melinder'
 
+API = "http://localhost:5000/api/"
