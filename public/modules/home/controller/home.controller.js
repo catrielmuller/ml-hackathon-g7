@@ -28,7 +28,7 @@ angular.module('melinder')
             newCard.id = Math.random();
             $scope.products.unshift(angular.extend({}, newCard));
 
-            $http.POST(API_DOMAIN + '/api/product/' + $scope.products[index]._id + '/like', {value: true}).then(function(data){
+            $http.POST(API_DOMAIN + '/api/product/' + $scope.products[index]._id + '/like', {value: save}).then(function(data){
                 console.log('paso loquillo', data);
             });
 
