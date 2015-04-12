@@ -4,11 +4,15 @@ angular.module('melinder')
 
     .controller('homeController', function($scope , $http){
 
-        $scope.products = [
+        $http.GET(API_DOMAIN + '/api/suggest_products').then(function(data){
+            $scope.products = data.data;
+        });
+
+      /*  $scope.products = [
             { image: 'https://pbs.twimg.com/profile_images/546942133496995840/k7JAxvgq.jpeg', name: 'asdasd fdg df hg gfh gfh gf h hjjhj' },
             { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png', name: 'asdasd fdg df hg gfh gfh gf h hjjhj' },
             { image: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg' , name: 'asdasd fdg df hg gfh gfh gf h hjjhj'}
-        ];
+        ]; */
 
         $scope.cardDestroyed = function(index) {
             $scope.products.splice(index, 1);
