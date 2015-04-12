@@ -1,5 +1,7 @@
 import os
+from flask.ext.cors import CORS
 from melinder import app
+cors = CORS(app)
 
 port = os.environ.get('PORT')
 if port:
