@@ -1,16 +1,25 @@
+from flask import send_from_directory, current_app, request
+import json
+import os
+
 from amazonproduct import API
 from eve.utils import parse_request
 
 from melinder import app
 from login import meli, login_required
 
-from flask import send_from_directory, current_app
-import os
-import json
-
 
 PWD = os.environ.get('PWD')
 STATIC_FOLDER = os.path.join(PWD, 'public')
+MELI_TO_AMAZON = {
+    'Autos, Motos y Otros': 'Automotive', 'Bebes': 'Baby', 'Computaci\\u00f3n': 'Computers',
+    'Consolas y Videojuegos': 'VideoGames', 'Deportes y Fitness': 'SportingGoods',
+    'Electr\\u00f3nica, Audio y Video': 'Electronics', 'Industrias y Oficinas': 'OfficeProducts',
+    'Instrumentos Musicales': 'MusicalInstruments', 'Joyas y Relojes': 'Jewelry',
+    'Juegos y Juguetes': 'Toys', 'Libros, Revistas y Comics': 'Books',
+    'M\\u00fasica, Pel\\u00edculas y Series': 'DVD', 'Ropa y Accesorios': 'Apparel',
+    'Salud y Belleza': 'HealthPersonalCare'
+}
 
 amazon_api = API(locale='es')
 
