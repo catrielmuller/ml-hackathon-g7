@@ -17,23 +17,8 @@
 
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
 
-
-        <div ng-controller="homeController">
-            <div>{{test}}</div>
-            <div>{{test}}</div>
-            <div>{{test}}</div>
-            <div>{{test}}</div>
-
-            <li><a ui-sref="home">Home</a></li>
-            <li><a ui-sref="about">About</a></li>
-
-            <div ng-view></div>
-        </div>
-
+        <div ui-view></div>
 
 
         <!-- Vendor libs-->
