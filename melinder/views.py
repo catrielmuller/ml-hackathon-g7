@@ -1,4 +1,4 @@
-from flask import send_from_directory, current_app, request, session
+from flask import send_from_directory, current_app, request, session, redirect
 import json
 
 from amazonproduct import API
@@ -21,19 +21,20 @@ MELI_TO_AMAZON = {
 amazon_api = API(locale='es')
 
 
-@login_required
 @app.route('/')
+@login_required
 def index():
     return send_from_directory(STATIC_FOLDER, "index.html")
 
 
-@login_required
 @app.route('/<path:path>')
+@login_required
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
 
 
 @app.route('/update_amazon_products')
+@login_required
 def update_amazon_products():
     categories = current_app.data.find('category', parse_request('category'), {})
     app.logger.debug('Categories {}'.format(categories))
@@ -60,8 +61,8 @@ def update_amazon_products():
     return ''
 
 
-@login_required
 @app.route('/api/offer/<offer>/change_price/')
+@login_required
 def change_price():
     # chequear que <offer> sea de <me>
     # publicar un item igual a <offer>
@@ -70,30 +71,32 @@ def change_price():
     return ""
 
 
-@login_required
 @app.route('/api/product/<product_id>/like')
+@login_required
 def like(product_id):
     current_app.data.insert('like', {'does_like': request.args.get('value'), 'user': session['user_id'], 'product': product_id})
-    product = current_app.data.find("product", {'_id': like.product})
-    category = current_app.data.find("category", {'_id': product.category})
+    product = current_app.data.find("product", parse_request('product'), {'_id': like.product})
+    category = current_app.data.find("category", parse_request('category'), {'_id': product.category})
 
     items = json.loads(meli.get("/sites/MLA/search/?category=%s&q=%s" % (category.meli_id, product.description)).content)
 
     return items
 
 
-@login_required
 @app.route('/load_categories')
+@login_required
 def load_categories():
     categories = json.loads(meli.get("/sites/MLA/categories").content)
     for category in categories:
         if category['name'] in MELI_TO_AMAZON:
-            category_entry = {
-                'name': category['name'],
-                'meli_id': category['id'],
-                'amazon_name': MELI_TO_AMAZON.get(category['name'])
-            }
-            current_app.data.insert('category', category_entry)
+            exists = current_app.data.find("category", parse_request('category'), {'name': category['name']})
+            if not exists:
+                category_entry = {
+                    'name': category['name'],
+                    'meli_id': category['id'],
+                    'amazon_name': MELI_TO_AMAZON.get(category['name'])
+                }
+                current_app.data.insert('category', category_entry)
 
     return json.dumps(categories)
 

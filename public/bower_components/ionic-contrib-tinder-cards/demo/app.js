@@ -30,23 +30,23 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
     $scope.cards.splice(index, 1);
   };
 
-  $scope.addCard = function() {
+  $scope.addProduct = function() {
     var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
     newCard.id = Math.random();
     $scope.cards.unshift(angular.extend({}, newCard));
   }
   
   $scope.cards = [];
-  for(var i = 0; i < 3; i++) $scope.addCard();
+  for(var i = 0; i < 3; i++) $scope.addProduct();
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
-    $scope.addCard();
+    $scope.addProduct();
   };
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
-    $scope.addCard();
+    $scope.addProduct();
   };
 });

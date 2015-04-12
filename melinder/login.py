@@ -1,3 +1,4 @@
+from functools import wraps
 import json
 import os
 import sys
@@ -18,11 +19,13 @@ REDIRECT_URI = os.environ.get('MELI_REDIRECT_URI', "http://localhost:5000/author
 meli = Meli(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 
-def login_required(func):
-    def f(**args):
-        if not 'access_token' in session or not 'refresh_token' in session or not 'meli_user' in session:
-            return redirect("/login")
-    return f
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not 'user_id' in session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route("/login")
@@ -31,10 +34,23 @@ def login():
     return redirect(redirectUrl)
 
 
+@app.route("/logout")
 @login_required
+def logout():
+    if 'access_token' in session: del session['access_token']
+    if 'refresh_token' in session: del session['refresh_token']
+    if 'meli_id' in session: del session['meli_id']
+    if 'meli_email' in session: del session['meli_email']
+    if 'user_id' in session: del session['user_id']
+    return "Logged out"
+
+
+
 @app.route("/app")
+@login_required
 def app_begin():
     return send_from_directory(STATIC_FOLDER, 'app.html')
+
 
 
 @app.route("/authorize")
@@ -51,7 +67,7 @@ def authorize():
 
     exists = current_app.data.find('user', parse_request('user'), {"meli_id": meli_user['id']})
     if exists.count() == 0:
-        user_id = current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']})['_id']
+        user_id = str(current_app.data.insert('user', {'meli_id': meli_user['id'], 'email': meli_user['email']}))
     else:
         user_id = exists[0]['_id']
 
@@ -60,7 +76,7 @@ def authorize():
     return redirect("/app")
 
 
-@login_required
 @app.route("/api/me")
+@login_required
 def me():
     return json.dumps({'id': session['meli_id'], 'email': session['meli_email']})
