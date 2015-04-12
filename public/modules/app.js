@@ -1,7 +1,7 @@
 'use strict';
 var API_DOMAIN = 'http://ml-hackathon-g7.herokuapp.com';
 
-var venderLibs = ['ui.router', 'ionic'];
+var venderLibs = ['ui.router', 'ionic','ionic.contrib.ui.tinderCards'];
 
 var app = angular.module('melinder', venderLibs);
 
