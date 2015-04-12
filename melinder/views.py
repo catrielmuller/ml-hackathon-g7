@@ -1,4 +1,4 @@
-from flask import send_from_directory, current_app, request, session
+from flask import send_from_directory, current_app, request, session, redirect
 import json
 
 from amazonproduct import API
@@ -21,19 +21,20 @@ MELI_TO_AMAZON = {
 amazon_api = API(locale='es')
 
 
-@login_required
 @app.route('/')
+@login_required
 def index():
     return send_from_directory(STATIC_FOLDER, "index.html")
 
 
-@login_required
 @app.route('/<path:path>')
+@login_required
 def static_proxy(path):
     return send_from_directory(STATIC_FOLDER, path)
 
 
 @app.route('/update_amazon_products')
+@login_required
 def update_amazon_products():
     categories = current_app.data.find('category', parse_request('category'))[0]
 
@@ -51,8 +52,8 @@ def update_amazon_products():
                 current_app.data.insert('product', product_entry)
 
 
-@login_required
 @app.route('/api/offer/<offer>/change_price/')
+@login_required
 def change_price():
     # chequear que <offer> sea de <me>
     # publicar un item igual a <offer>
@@ -61,8 +62,8 @@ def change_price():
     return ""
 
 
-@login_required
 @app.route('/api/product/<product_id>/like')
+@login_required
 def like(product_id):
     current_app.data.insert('like', {'does_like': request.args.get('value'), 'user': session['user_id'], 'product': product_id})
     product = current_app.data.find("product", parse_request('product'), {'_id': like.product})
@@ -73,8 +74,8 @@ def like(product_id):
     return items
 
 
-@login_required
 @app.route('/load_categories')
+@login_required
 def load_categories():
     categories = json.loads(meli.get("/sites/MLA/categories").content)
     for category in categories:
